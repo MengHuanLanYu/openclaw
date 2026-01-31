@@ -1,5 +1,38 @@
 # Openclaw Automated Build
 
+## Quick Start
+
+### Minimal (`docker run`)
+
+```bash
+docker run -d \
+  --name openclaw \
+  -p 8080:8080 \
+  -e ANTHROPIC_API_KEY=sk-ant-... \
+  -e AUTH_PASSWORD=changeme \
+  -e OPENCLAW_GATEWAY_TOKEN=my-secret-token \
+  -v openclaw-data:/data \
+  coollabsio/openclaw:latest
+```
+
+- `ANTHROPIC_API_KEY` — any [supported provider key](#ai-providers-at-least-one-required) works (OpenAI, Gemini, etc.)
+- `AUTH_PASSWORD` — protects the web UI with HTTP basic auth (user: `admin`)
+- `OPENCLAW_GATEWAY_TOKEN` — internal API token; auto-generated if omitted, but set it explicitly for stable API access
+- `/data` — persists state, config, and workspace across restarts
+
+### Full Setup (docker-compose)
+
+Includes persistent storage, browser sidecar (CDP + VNC), and webhook hooks. See [`docker-compose.yml`](docker-compose.yml).
+
+```bash
+docker compose up -d
+```
+
+**After starting:**
+
+1. **Openclaw UI** — `http://localhost:8080` (login: `admin` / your `AUTH_PASSWORD`)
+2. **Browser desktop** — `https://localhost:6901` (password: your `VNC_PW`) — use this to log into sites that need auth (OAuth, 2FA, captchas). Openclaw reuses the session via CDP.
+
 ## Architecture
 
 ```

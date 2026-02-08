@@ -276,7 +276,7 @@ GATEWAY_ARGS=(
   --port "$GATEWAY_PORT"
   --verbose
   --allow-unconfigured
-  --bind loopback
+  --bind "${OPENCLAW_GATEWAY_BIND:-loopback}"
 )
 
 GATEWAY_ARGS+=(--token "$GATEWAY_TOKEN")

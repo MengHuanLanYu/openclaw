@@ -172,6 +172,7 @@ map "\$ocw_has_token:\$args" \$ocw_proxy_args {
 server {
     listen ${PORT:-8080} default_server;
     server_name _;
+    absolute_redirect off;
 
     location = /healthz {
         access_log off;

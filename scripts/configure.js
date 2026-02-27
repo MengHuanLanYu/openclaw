@@ -100,8 +100,7 @@ if (config.gateway.controlUi.enabled === undefined) {
   config.gateway.controlUi.enabled = true;
 }
 
-// Bind address (recognized JSON config key; CLI-only flags like --allow-unconfigured
-// and --verbose are passed in entrypoint.sh instead)
+// Bind address (all gateway config comes from openclaw.json; "gateway run" reads it)
 if (config.gateway.bind === undefined) {
   config.gateway.bind = process.env.OPENCLAW_GATEWAY_BIND || "loopback";
 }

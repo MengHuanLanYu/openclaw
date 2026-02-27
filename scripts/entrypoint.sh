@@ -19,7 +19,7 @@ if [ ! -d "$BREW_PERSIST_DIR" ]; then
     echo "[entrypoint] Initializing persistent linuxbrew storage..."
     mkdir -p "$BREW_PERSIST_DIR"
     if [ -d "/home/linuxbrew/.linuxbrew" ] && [ ! -L "/home/linuxbrew/.linuxbrew" ]; then
-         cp -a /home/linuxbrew/.linuxbrew/* "$BREW_PERSIST_DIR/" || true
+        cp -a /home/linuxbrew/.linuxbrew/* "$BREW_PERSIST_DIR/" || true
         cp -a /home/linuxbrew/.linuxbrew/.[!.]* "$BREW_PERSIST_DIR/" 2>/dev/null || true
     fi
     chown -R linuxbrew:linuxbrew "$BREW_PERSIST_DIR"
@@ -37,7 +37,7 @@ export NPM_CONFIG_PREFIX="/data/npm-global"
 export UV_TOOL_DIR="/data/uv/tools"
 export UV_CACHE_DIR="/data/uv/cache"
 export GOPATH="/data/go"
-export PATH="/data/npm-global/bin:/data/uv/tools/bin:/data/go/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/usr/local/go/bin:/root/.local/bin:$PATH"
+export PATH="/data/npm-global/bin:/data/uv/tools/bin:/data/go/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/usr/local/go/bin:$PATH"
 EOF
 chmod +x /etc/profile.d/custom-tools.sh
 

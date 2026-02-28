@@ -22,10 +22,10 @@ ENV NPM_CONFIG_PREFIX="/data/npm-global" \
     GOPATH="/data/go" \
     PATH="/data/npm-global/bin:/data/uv/tools/bin:/data/go/bin:${PATH}"
 
-ENV PORT=8080
-EXPOSE 8080
+ENV PORT=8000
+EXPOSE 8000
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD curl -f http://localhost:${PORT:-8080}/healthz || exit 1
+  CMD curl -f http://localhost:${PORT:-8000}/healthz || exit 1
 
 ENTRYPOINT ["/app/scripts/entrypoint.sh"]

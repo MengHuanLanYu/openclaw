@@ -309,5 +309,10 @@ echo "[entrypoint] starting openclaw gateway on port $GATEWAY_PORT..."
 
 # cwd must be the app root so the gateway finds dist/control-ui/ assets
 # "gateway run" = foreground mode; all config comes from openclaw.json
+
+
+SHORT_HOSTNAME=$(hostname | cut -c1-40)
+hostname "$SHORT_HOSTNAME" 2>/dev/null || true
+
 cd /opt/openclaw/app
 exec openclaw gateway run

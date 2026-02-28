@@ -280,7 +280,6 @@ server {
         
         resolver 127.0.0.11 valid=10s ipv6=off;
         set \$browser_upstream http://browser:3000;
-        proxy_pass http://browser:3000/;
         proxy_pass \$browser_upstream/;
         proxy_set_header Host \$host;
         proxy_set_header X-Real-IP \$remote_addr;

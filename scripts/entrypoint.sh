@@ -312,7 +312,7 @@ echo "[entrypoint] starting openclaw gateway on port $GATEWAY_PORT..."
 
 
 SHORT_HOSTNAME=$(hostname | cut -c1-40)
-hostname "$SHORT_HOSTNAME" 2>/dev/null || true
+export HOSTNAME="$SHORT_HOSTNAME"
 
 cd /opt/openclaw/app
 exec openclaw gateway run

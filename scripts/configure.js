@@ -663,22 +663,33 @@ function applyDotNotationEnvVars() {
  * Applies allowed origins configuration from environment variable.
  */
 function applyAllowedOrigins() {
+  let origins = [];
+
   const rawValue = process.env.OPENCLAW_ALLOWED_ORIGINS;
-  if (!rawValue) {
-    return;
+  if (rawValue) {
+    try {
+      origins = parseAllowedOrigins(rawValue);
+    } catch (error) {
+      console.error('[configure] ERROR: OPENCLAW_ALLOWED_ORIGINS:', error.message);
+      console.error('[configure]   Expected: comma-separated URLs or JSON array');
+      console.error("[configure]   Example: 'http://localhost:5173,https://app.com'");
+      console.error("[configure]   Example: '[\"http://localhost:5173\"]'");
+      process.exit(EXIT_CODE.INVALID_CONFIG);
+    }
   }
 
-  try {
-    const origins = parseAllowedOrigins(rawValue);
+  // Automatically inject Coolify's FQDN if we are running in a Coolify environment
+  const coolifyFqdn = process.env.COOLIFY_FQDN || process.env.COOLIFY_URL;
+  if (coolifyFqdn && !origins.includes(coolifyFqdn)) {
+    // Some Coolify injects might have trailing slashes
+    origins.push(coolifyFqdn.replace(/\/+$/, ""));
+    console.log(`[configure] injected Coolify origin: ${coolifyFqdn}`);
+  }
+
+  if (origins.length > 0) {
     ensure(config, 'gateway', 'controlUi');
     config.gateway.controlUi.allowedOrigins = origins;
     console.log(`[configure] allowed origins: ${JSON.stringify(origins)}`);
-  } catch (error) {
-    console.error('[configure] ERROR: OPENCLAW_ALLOWED_ORIGINS:', error.message);
-    console.error('[configure]   Expected: comma-separated URLs or JSON array');
-    console.error("[configure]   Example: 'http://localhost:5173,https://app.com'");
-    console.error("[configure]   Example: '[\"http://localhost:5173\"]'");
-    process.exit(EXIT_CODE.INVALID_CONFIG);
   }
 }
 
